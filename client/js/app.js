@@ -1,7 +1,7 @@
 
 class EventManager {
     constructor() {
-        this.urlBase = "/events"
+        this.urlBase = "examen"
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
@@ -14,10 +14,25 @@ class EventManager {
         })
     }
 
-    eliminarEvento(evento) {
-        let eventId = evento.id
-        $.post('/events/delete/'+eventId, {id: eventId}, (response) => {
+    actualizarEvento(evento) {
+       
+       
+      var start = moment(evento.start).format('YYYY-MM-DD HH:mm:ss')
+      var start_date = start.substr(0,10)
+      var end = moment(evento.end).format('YYYY-MM-DD HH:mm:ss')
+      var end_date = end.substr(0,10)
+
+       $.post('examen/update',{id:evento._id,start:start_date,end:end_date},function(response){
             alert(response)
+       })
+    }
+
+    eliminarEvento(evento) {
+        let eventId = evento._id
+        $.post('examen/delete', {id: eventId}, (response) => {
+           
+            alert(response)
+            $('.calendario').fullCalendar('removeEvents', eventId);             
         })
     }
 
@@ -35,15 +50,17 @@ class EventManager {
                 end = $('#end_date').val()
                 start_hour = $('#start_hour').val()
                 end_hour = $('#end_hour').val()
-                start = start + 'T' + start_hour
-                end = end + 'T' + end_hour
+               // start = start + 'T' + start_hour
+               // end = end + 'T' + end_hour
             }
             let url = this.urlBase + "/new"
             if (title != "" && start != "") {
                 let ev = {
                     title: title,
                     start: start,
-                    end: end
+                    start_hour: start_hour,
+                    end: end,
+                    end_hour: end_hour
                 }
                 $.post(url, ev, (response) => {
                     alert(response)
@@ -87,7 +104,7 @@ class EventManager {
                 center: 'title',
                 right: 'month,agendaWeek,basicDay'
             },
-            defaultDate: '2016-11-01',
+            defaultDate: '2019-01-01',
             navLinks: true,
             editable: true,
             eventLimit: true,
@@ -99,7 +116,7 @@ class EventManager {
             },
             events: eventos,
             eventDragStart: (event,jsEvent) => {
-                $('.delete').find('img').attr('src', "img/trash-open.png");
+                $('.delete').find('img').attr('src', "../img/trash-open.png");
                 $('.delete').css('background-color', '#a70f19')
             },
             eventDragStop: (event,jsEvent) => {
@@ -112,7 +129,7 @@ class EventManager {
                 if (jsEvent.pageX >= x1 && jsEvent.pageX<= x2 &&
                     jsEvent.pageY >= y1 && jsEvent.pageY <= y2) {
                         this.eliminarEvento(event)
-                        $('.calendario').fullCalendar('removeEvents', event.id);
+                        
                     }
                 }
             })

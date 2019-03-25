@@ -1,0 +1,24 @@
+{
+  "name": "base_de_datos_node",
+  "version": "1.0.0",
+  "description": "examen final base de datos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abnerord/base_de_datos_node.git"
+  },
+  "author": "abner",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.8"
+  },
+  "bugs": {
+    "url": "https://github.com/Abnerord/base_de_datos_node/issues"
+  },
+  "homepage": "https://github.com/Abnerord/base_de_datos_node#readme"
+}
